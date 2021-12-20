@@ -1,0 +1,99 @@
+//
+//
+import java.io.*;
+import java.util.*;
+
+weka.classifiers.trees.J48 j48 = null;
+Instances data = null;
+
+String predict(String a, String b, String c, String d, String e, String f, String g, String h, String j) {
+  String r = "Sorry, unable to predict";
+  if (j48 == null) return r;
+
+  // build a new instance with the given input
+  Instance di = new DenseInstance(3);
+  di.setDataset(data);
+  di.setValue(0, a);
+  di.setValue(1, b);
+  //di.setValue(2, c);
+  //di.setValue(3, d);
+  //di.setValue(4, e);
+  //di.setValue(5, f);
+  //di.setValue(6, g);
+  //di.setValue(7, h);
+  //di.setValue(8, j);
+
+  try { 
+    int i = (int)j48.classifyInstance(di);
+    r = di.classAttribute().value(i);
+  }
+  catch(Exception ex) {
+    ex.printStackTrace();
+  }
+  return r;
+}
+
+void setup() {
+  loadData(dataPath("hwg"));
+  //j48Train();
+  //saveModel(dataPath("j48.model"), j48);
+  loadModel(dataPath("J48HWG.model"));
+
+  println(predict("Female", "18-25", "Student", "City", "No", "Other", "Bike", "Sports", "Old city centers"));
+  //String prediction = predict(160, 70);
+  //println (prediction);
+}
+
+void loadData(String filepath) {
+  try { 
+    weka.core.converters.ConverterUtils.DataSource source 
+      = new weka.core.converters.ConverterUtils.DataSource(filepath);
+    data = source.getDataSet();
+    // setting class attribute if the data format does not provide this information
+    // For example, the XRFF format saves the class attribute information as well
+    if (data.classIndex() == -1)
+      data.setClassIndex(data.numAttributes() - 1);
+  }
+  catch(Exception ex) {
+    ex.printStackTrace();
+  }
+}
+
+void j48Train()
+{
+  try {
+    j48 = new weka.classifiers.trees.J48();
+    j48.setOptions(weka.core.Utils.splitOptions("-C 0.25 -M 2"));
+    j48.buildClassifier(data);  
+    weka.classifiers.Evaluation eval = new weka.classifiers.Evaluation(data);
+    eval.crossValidateModel(         //cross-validate
+      j48, data, 10, //with 10 folds
+      new Random(1));                //and random number generator with seed 1
+
+    println(eval.errorRate());       //Printing Training Mean root squared Error
+    println(eval.toSummaryString()); //Summary of Training
+  }
+  catch(Exception ex) {
+    ex.printStackTrace();
+  }
+}
+
+void loadModel(String filepath) {
+  try {
+    j48 = (weka.classifiers.trees.J48) SerializationHelper.read(filepath);
+    println("J48 loaded");
+    println(j48.toString());
+  }
+  catch(Exception ex) {
+    ex.printStackTrace();
+  }
+}
+
+void saveModel(String filepath, weka.classifiers.trees.J48 j) {
+  try {
+    SerializationHelper.write(filepath, j);
+  }
+  catch(Exception ex) {
+    ex.printStackTrace();
+  }
+}
