@@ -1,0 +1,228 @@
+int state = 0;
+int click = 0;
+
+String choice_0 = "empty";
+String choice_1 = "empty";
+String choice_2 = "empty";
+String choice_3 = "empty";
+
+void setup() {
+  size (500, 350);
+
+  loadData(dataPath("Survey.csv"));
+  loadModel(dataPath("J48weka.model"));
+}
+
+void draw () {
+  textAlign (CENTER, CENTER);
+  textSize(24);
+  fill(0);
+  background (255);
+
+
+  int xb = width/2-60;
+  int xs = 120;
+  int ys = 40;
+
+  int y1 = 100;
+  int y2 = 150;
+  int y3 = 200;
+  int y4 = 250;
+
+  //Start
+  if (state == 0) {
+    text ("Start Quiz?", width/2, 50);
+
+    fill(0);
+    rect(xb, y1, xs, ys, 20);
+    fill(255);
+    text("Start", xb, y1-5, xs, ys);
+    if (mouseX > xb && mouseX < (xb+xs)) {
+      if (mouseY > y1 && mouseY < (y1 + ys)) {
+        if (click == 1) {
+          choice_0 = "Start";
+          println (choice_0);
+          delay (1000);
+          click = 0;
+          state++;
+        }
+      }
+    }
+  }
+
+  //First Choice
+  if (state == 1) {
+    text ("What is your gender?", width/2, 50);
+
+    fill(0);
+    rect(xb, y1, xs, ys, 20);
+    fill(255);
+    text("Male", xb, y1-5, xs, ys);
+    if (mouseX > xb && mouseX < (xb+xs)) {
+      if (mouseY > y1 && mouseY < (y1 + ys)) {
+        if (click == 1) {
+          choice_1 = "Male";
+          println (choice_1);
+          delay (1000);
+          state = 2;
+          click = 0;
+        }
+      }
+    }
+
+    fill(0);
+    rect(xb, y2, xs, ys, 20);
+    fill(255);
+    text("Female", xb, y2-5, xs, ys);
+    if (mouseX > xb && mouseX < (xb+xs)) {
+      if (mouseY > y2 && mouseY < (y2 + ys)) {
+        if (click == 1) {
+          state = 2;
+          choice_1 = "Female";
+          println (choice_1);
+          delay (1000);
+          click = 0;
+        }
+      }
+    }
+    fill(0);
+    rect(xb, y3, xs, ys, 20);
+    fill(255);
+    text("Other", xb, y3-5, xs, ys);
+    if (mouseX > xb && mouseX < (xb+xs)) {
+      if (mouseY > y3 && mouseY < (y3 + ys)) {
+        if (click == 1) {
+          state = 2;
+          choice_1 = "Other";
+          println (choice_1);
+          click = 0;
+        }
+      }
+    }
+  }
+
+  //Second Choice
+  if (state == 2) {
+    text ("What is your occupation?", width/2, 50);
+
+    fill(0);
+    rect(xb, y1, xs, ys, 20);
+    fill(255);
+    text("Student", xb, y1-5, xs, ys);
+    if (mouseX > xb && mouseX < (xb+xs)) {
+      if (mouseY > y1 && mouseY < (y1 + ys)) {
+        if (click == 1) {
+          choice_2 = "Student";
+          println (choice_2);
+          state = 3;
+          click = 0;
+        }
+      }
+    }
+
+    fill(0);
+    rect(xb, y2, xs, ys, 20);
+    fill(255);
+    text("Job", xb, y2-5, xs, ys);
+    if (mouseX > xb && mouseX < (xb+xs)) {
+      if (mouseY > y2 && mouseY < (y2 + ys)) {
+        if (click == 1) {
+          state = 3;
+          choice_2 = "Job";
+          println (choice_2);
+          click = 0;
+        }
+      }
+    }
+    fill(0);
+    rect(xb, y3, xs, ys, 20);
+    fill(255);
+    text("Other", xb, y3-5, xs, ys);
+    if (mouseX > xb && mouseX < (xb+xs)) {
+      if (mouseY > y3 && mouseY < (y3 + ys)) {
+        if (click == 1) {
+          state = 3;
+          choice_2 = "Other";
+          println (choice_2);
+          click = 0;
+        }
+      }
+    }
+  }
+
+  //Third Choice
+  if (state == 3) {
+    text ("What is your hobby?", width/2, 50);
+
+    fill(0);
+    rect(xb, y1, xs, ys, 20);
+    fill(255);
+    text("Games", xb, y1-5, xs, ys);
+    if (mouseX > xb && mouseX < (xb+xs)) {
+      if (mouseY > y1 && mouseY < (y1 + ys)) {
+        if (click == 1) {
+          choice_3 = "Games";
+          println (choice_3);
+          state = 4;
+          click = 0;
+        }
+      }
+    }
+
+    fill(0);
+    rect(xb, y2, xs, ys, 20);
+    fill(255);
+    text("Sports", xb, y2-5, xs, ys);
+    if (mouseX > xb && mouseX < (xb+xs)) {
+      if (mouseY > y2 && mouseY < (y2 + ys)) {
+        if (click == 1) {
+          choice_3 = "Sports";
+          println (choice_3);
+          state = 4;
+          click = 0;
+        }
+      }
+    }
+    fill(0);
+    rect(xb, y3, xs, ys, 20);
+    fill(255);
+    text("Social", xb, y3-5, xs, ys);
+    if (mouseX > xb && mouseX < (xb+xs)) {
+      if (mouseY > y3 && mouseY < (y3 + ys)) {
+        if (click == 1) {
+          choice_3 = "Social";
+          println (choice_3);
+          state = 4;
+          click = 0;
+        }
+      }
+    }
+    fill(0);
+    rect(xb, y4, xs, ys, 20);
+    fill(255);
+    text("Artistic", xb, y4-5, xs, ys);
+    if (mouseX > xb && mouseX < (xb+xs)) {
+      if (mouseY > y4 && mouseY < (y4 + ys)) {
+        if (click == 1) {
+          choice_3 = "Artistic";
+          println (choice_3);
+          state = 4;
+          click = 0;
+        }
+      }
+    }
+  }
+
+  //prediction
+  if (state == 4) {
+    textSize (100);
+    text (predict(choice_1, "18-25", choice_2, "City", "Yes", "Other", "Foot", choice_3, "Calm parks"), width/2, height/2-20);
+    println(predict(choice_1, "18-25", choice_2, "City", "Yes", "Other", "Foot", choice_3, "Calm parks"));
+  }
+}
+
+void mouseReleased() {
+  if (click == 0) {
+    click = 1;
+  }
+}
